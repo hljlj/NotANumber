@@ -5,6 +5,7 @@ import Head from "next/head";
 import { getMDXComponent } from "mdx-bundler/client";
 import Balancer from "react-wrap-balancer";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 import { getAllPosts, getPost, type Post } from "~/lib/content.server";
 import { BASE_URL } from "~/lib/config";
@@ -46,6 +47,17 @@ export default function PostPage({ content }: { content: Post }) {
     [content.code]
   );
   const { frontmatter, headings, slug } = content;
+
+  const scrollToHeading = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  };
+
   return (
     <PageWrapper>
       <Head>
@@ -65,36 +77,55 @@ export default function PostPage({ content }: { content: Post }) {
         </h2>
         <ul>
           {headings.map((heading) => (
-            <li key={heading.id}>
-              <a href={`#${heading.id}`}>{heading.text}</a>
-            </li>
+            <motion.li 
+              key={heading.id}
+              whileHover={{ x: 4 }}
+              transition={{ duration: 0.2 }}
+            >
+              <a 
+                href={`#${heading.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToHeading(heading.id);
+                }}
+              >
+                {heading.text}
+              </a>
+            </motion.li>
           ))}
         </ul>
       </Nav>
-      <Article as="article">
-        <Header>
-          <LastUpdated>
-            {formatter.format(new Date(frontmatter.editedAt))}
-          </LastUpdated>
-          <Title>
-            <Balancer>{frontmatter.title}</Balancer>
-          </Title>
-          <Blurb>
-            <Balancer>{frontmatter.blurb}</Balancer>
-          </Blurb>
-        </Header>
-        <PostContent
-          components={{
-            h2: Heading as any,
-            h3: Subheading as any,
-            ol: OrderedList as any,
-            a: Link as any,
-          }}
-        />
-        <NewsletterWrapper>
-          <NewsletterForm />
-        </NewsletterWrapper>
-      </Article>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Article as="article">
+          <Header>
+            <LastUpdated>
+              {formatter.format(new Date(frontmatter.editedAt))}
+            </LastUpdated>
+            <Title>
+              <Balancer>{frontmatter.title}</Balancer>
+            </Title>
+            <Blurb>
+              <Balancer>{frontmatter.blurb}</Balancer>
+            </Blurb>
+          </Header>
+          <PostContent
+            components={{
+              h2: Heading as any,
+              h3: Subheading as any,
+              ol: OrderedList as any,
+              a: Link as any,
+            }}
+          />
+          <NewsletterWrapper>
+            <NewsletterForm />
+          </NewsletterWrapper>
+        </Article>
+      </motion.div>
     </PageWrapper>
   );
 }
@@ -124,6 +155,7 @@ const Nav = styled("nav", {
   a: {
     textDecoration: "none",
     color: "inherit",
+    transition: "color 0.2s",
 
     "&:hover": {
       color: "$blue9",

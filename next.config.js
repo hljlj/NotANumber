@@ -9,6 +9,11 @@ const nextConfig = {
   images: {
     domains: ["avatars.githubusercontent.com"],
   },
+  webpack: (config, { isServer }) => {
+    // 添加 .ts 扩展名到模块解析配置
+    config.resolve.extensions = ['.ts', '.tsx', '.js', '.jsx', ...config.resolve.extensions];
+    return config;
+  },
   async redirects() {
     return [
       {

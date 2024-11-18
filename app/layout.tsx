@@ -2,7 +2,6 @@ import { Nunito } from "next/font/google";
 import localFont from "next/font/local";
 import { clsx } from "clsx";
 import "./styles.css";
-import { AuthProvider } from "./svg-paths/provider";
 import { Analytics } from "@vercel/analytics/react";
 
 export const metadata = {
@@ -58,7 +57,7 @@ export default function RootLayout({
           "font-sans antialiased bg-gray4"
         )}
       >
-        <AuthProvider>{children}</AuthProvider>
+        {children}
         <Analytics />
       </body>
     </html>

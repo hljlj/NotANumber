@@ -141,3 +141,17 @@ export const globalStyles = globalCss({
     fontFamily: "$mono",
   },
 });
+// export const GlobalStyles = globalCss({
+//   "*": {
+//     boxSizing: "border-box",
+//     margin: 0,
+//     padding: 0,
+//   },
+//   body: {
+//     fontFamily: "Arial, sans-serif",
+//     backgroundColor: "#f0f0f0",
+//     color: "#333",
+//   },
+//   // 其他全局样式
+// });
+
