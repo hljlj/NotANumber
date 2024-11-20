@@ -47,23 +47,23 @@ interface TreeNode extends Heading {
 const buildHeadingTree = (headings: Heading[]): TreeNode[] => {
   const root: TreeNode[] = [];
   const stack: TreeNode[] = [];
-  
+
   headings.forEach(heading => {
     const node: TreeNode = { ...heading, children: [] };
-    
+
     while (stack.length > 0 && stack[stack.length - 1].level >= heading.level) {
       stack.pop();
     }
-    
+
     if (stack.length === 0) {
       root.push(node);
     } else {
       stack[stack.length - 1].children.push(node);
     }
-    
+
     stack.push(node);
   });
-  
+
   return root;
 };
 
@@ -265,6 +265,25 @@ const Nav = styled("nav", {
   display: "none",
   flexDirection: "column",
   paddingLeft: "$6",
+  overflowY: "auto",
+  scrollbarWidth: "thin",
+  scrollbarColor: "$gray6 transparent",
+
+  "&::-webkit-scrollbar": {
+    width: "6px",
+  },
+
+  "&::-webkit-scrollbar-track": {
+    background: "transparent",
+  },
+
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: "$gray6",
+    borderRadius: "3px",
+    "&:hover": {
+      backgroundColor: "$gray8",
+    },
+  },
 
   "@media (min-width: 72rem)": {
     display: "flex",
