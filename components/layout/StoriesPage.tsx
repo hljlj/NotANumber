@@ -3,6 +3,7 @@ import Link from "next/link";
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 
 import { ThemeToggle } from "~/components/ThemeToggle";
+import { CollapsibleNavigation } from "~/components/CollapsibleNavigation";
 import { styled } from "~/stitches.config";
 
 export type Story = {
@@ -34,20 +35,15 @@ export default function StoriesPage({
           <button onClick={toggle}>
             <HiArrowLeft />
           </button>
-          <ul>
-            {stories.map((group) => (
-              <li key={group.name}>
-                <p>{group.name}</p>
-                <ul>
-                  {group.stories.map((story) => (
-                    <li key={story.name}>
-                      <Link href={`/_stories/${story.name}`}>{story.name}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
+          <CollapsibleNavigation
+            items={stories.map((group) => ({
+              title: group.name,
+              children: group.stories.map((story) => ({
+                title: story.name,
+                slug: `/_stories/${story.name}`,
+              })),
+            }))}
+          />
         </Sidebar>
       ) : (
         <SidebarToggleButton>

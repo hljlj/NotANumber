@@ -5,18 +5,18 @@ import Head from "next/head";
 import { getMDXComponent } from "mdx-bundler/client";
 import Balancer from "react-wrap-balancer";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown, ChevronRight } from 'lucide-react';
 
-import { getAllPosts, getPost, type Post } from "~/lib/content.server";
+import { getAllPosts, getPost, type Post, type Heading } from "~/lib/content.server";
 import { BASE_URL } from "~/lib/config";
 import { darkTheme, styled } from "~/stitches.config";
 
-import { Heading, Subheading } from "~/components/Heading";
+import { Heading as HeadingComponent, Subheading } from "~/components/Heading";
 import { OrderedList } from "~/components/OrderedList";
 import { NewsletterForm } from "~/components/NewsletterForm";
 import { Link } from "~/components/Link";
 import { Content } from "~/components/Content";
-// import { ThemeToggle } from "~/components/ThemeToggle";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   return {
@@ -39,6 +39,88 @@ const formatter = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
   day: "numeric",
 });
+
+interface TreeNode extends Heading {
+  children: TreeNode[];
+}
+
+const buildHeadingTree = (headings: Heading[]): TreeNode[] => {
+  const root: TreeNode[] = [];
+  const stack: TreeNode[] = [];
+  
+  headings.forEach(heading => {
+    const node: TreeNode = { ...heading, children: [] };
+    
+    while (stack.length > 0 && stack[stack.length - 1].level >= heading.level) {
+      stack.pop();
+    }
+    
+    if (stack.length === 0) {
+      root.push(node);
+    } else {
+      stack[stack.length - 1].children.push(node);
+    }
+    
+    stack.push(node);
+  });
+  
+  return root;
+};
+
+const NavHeading = ({ heading, onHeadingClick }: { heading: TreeNode; onHeadingClick: (id: string) => void }) => {
+  const [isOpen, setIsOpen] = React.useState(true);
+  const hasChildren = heading.children.length > 0;
+  const level = Math.min(heading.level - 1, 2);
+
+  return (
+    <NavItem>
+      <NavItemContent>
+        {hasChildren && (
+          <CollapseButton onClick={() => setIsOpen(!isOpen)}>
+            <motion.span
+              initial={false}
+              animate={{ rotate: isOpen ? 0 : -90 }}
+              transition={{ duration: 0.2 }}
+            >
+              <ChevronDown size={16} />
+            </motion.span>
+          </CollapseButton>
+        )}
+        <NavLink 
+          href={`#${heading.id}`}
+          onClick={(e) => {
+            e.preventDefault();
+            onHeadingClick(heading.id);
+          }}
+          data-level={level}
+        >
+          {heading.text}
+        </NavLink>
+      </NavItemContent>
+      <AnimatePresence initial={false}>
+        {hasChildren && isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            style={{ overflow: "hidden" }}
+          >
+            <NavList>
+              {heading.children.map((child) => (
+                <NavHeading
+                  key={child.id}
+                  heading={child}
+                  onHeadingClick={onHeadingClick}
+                />
+              ))}
+            </NavList>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </NavItem>
+  );
+};
 
 export default function PostPage({ content }: { content: Post }) {
   const PostContent = React.useMemo(
@@ -70,28 +152,18 @@ export default function PostPage({ content }: { content: Post }) {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <Nav>
-        <h2>
+        <NavHeader>
           <NextLink href="/">NaN</NextLink>
-        </h2>
-        <ul>
-          {headings.map((heading) => (
-            <motion.li 
+        </NavHeader>
+        <NavList>
+          {buildHeadingTree(headings).map((heading) => (
+            <NavHeading
               key={heading.id}
-              whileHover={{ x: 4 }}
-              transition={{ duration: 0.2 }}
-            >
-              <a 
-                href={`#${heading.id}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToHeading(heading.id);
-                }}
-              >
-                {heading.text}
-              </a>
-            </motion.li>
+              heading={heading}
+              onHeadingClick={scrollToHeading}
+            />
           ))}
-        </ul>
+        </NavList>
       </Nav>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -113,7 +185,7 @@ export default function PostPage({ content }: { content: Post }) {
           </Header>
           <PostContent
             components={{
-              h2: Heading as any,
+              h2: HeadingComponent as any,
               h3: Subheading as any,
               ol: OrderedList as any,
               a: Link as any,
@@ -127,6 +199,58 @@ export default function PostPage({ content }: { content: Post }) {
     </PageWrapper>
   );
 }
+
+const NavHeader = styled("h2", {
+  fontFamily: "$serif",
+  marginBottom: "$4",
+});
+
+const NavItem = styled("li", {
+  listStyle: "none",
+});
+
+const NavItemContent = styled("div", {
+  display: "flex",
+  alignItems: "center",
+  gap: "$1",
+});
+
+const NavList = styled("ul", {
+  padding: 0,
+  margin: 0,
+  marginLeft: "$4",
+});
+
+const NavLink = styled("a", {
+  color: "$gray11",
+  textDecoration: "none",
+  fontSize: "$sm",
+  transition: "color 0.2s",
+  "&:hover": {
+    color: "$gray12",
+  },
+  variants: {
+    'data-level': {
+      0: { fontWeight: "600" },
+      1: { fontWeight: "500" },
+      2: { fontWeight: "400" },
+    },
+  },
+});
+
+const CollapseButton = styled("button", {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  background: "transparent",
+  border: "none",
+  padding: "$1",
+  cursor: "pointer",
+  color: "$gray11",
+  "&:hover": {
+    color: "$gray12",
+  },
+});
 
 const NewsletterWrapper = styled("footer", {
   marginTop: "$24",
