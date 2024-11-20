@@ -12,7 +12,7 @@ import { FormEvent, FormState, useSubscribe } from "../SubscribeInput";
 export const MobileNavIsland = ({ headings }: { headings: Heading[] }) => {
   const id = React.useId();
 
-  const [activeHeading, setActiveHeading] = React.useState("Introduction");
+  const [activeHeading, setActiveHeading] = React.useState("");
   const [headingListOpen, setHeadingListOpen] = React.useState(false);
   const [subscribing, setSubscribing] = React.useState(false);
 
@@ -33,48 +33,24 @@ export const MobileNavIsland = ({ headings }: { headings: Heading[] }) => {
           initial={{ y: 10, opacity: 0 }}
           style={{ x: "-50%" }}
         >
-          <li>
-            <button
-              onClick={() => {
-                setHeadingListOpen(false);
-                setActiveHeading("Introduction");
-
-                // Remove hash from URL and scroll to top
-                history.pushState(
-                  "",
-                  document.title,
-                  window.location.pathname + window.location.search
-                );
-                window.scrollTo(0, 0);
-              }}
-            >
-              Introduction
-            </button>
-          </li>
           {headings.map((heading) => (
             <li key={heading.id}>
-              <a
-                href={`#${heading.id}`}
+              <button
+                data-level={heading.level}
                 onClick={() => {
                   setHeadingListOpen(false);
                   setActiveHeading(heading.text);
+                  const element = document.getElementById(heading.id);
+                  if (element) {
+                    element.scrollIntoView({ behavior: "smooth" });
+                  }
                 }}
               >
                 {heading.text}
-              </a>
+              </button>
             </li>
           ))}
         </HeadingList>
-      )}
-      {state === FormState.Done && (
-        <SuccessText
-          as={motion.div}
-          animate={{ y: 2, opacity: 1 }}
-          initial={{ y: 10, opacity: 0 }}
-          style={{ x: "-50%" }}
-        >
-          Thanks! Check your inbox — we sent you a confirmation email.
-        </SuccessText>
       )}
       <DynamicIsland>
         <Link href="/">
@@ -90,14 +66,9 @@ export const MobileNavIsland = ({ headings }: { headings: Heading[] }) => {
             }
           }}
         >
-          <HeadingButton
-            onClick={() => setHeadingListOpen(!headingListOpen)}
-            hidden={subscribing}
-            css={{ margin: "0 auto" }}
-          >
-            <FaListUl />
-            <span>{activeHeading}</span>
-          </HeadingButton>
+          <IconWrapper onClick={() => setHeadingListOpen(!headingListOpen)}>
+            {headingListOpen ? <FaTimes /> : <FaListUl />}
+          </IconWrapper>
           <SubscribeWrapper hidden={!subscribing} onSubmit={handleSubmit}>
             <label htmlFor={`${id}-subscribe-input`}>Email</label>
             <EmailInput
@@ -218,21 +189,49 @@ const SuccessText = styled(TopNav, {
   textAlign: "center",
 });
 
-const HeadingList = styled(TopNav, {
-  background: "$gray4",
-  border: "1px solid $gray8",
+const HeadingList = styled(motion.ul, {
+  position: "absolute",
+  bottom: "100%",
+  left: "50%",
+  width: "90vw",
+  maxWidth: 400,
+  maxHeight: "80vh",
+  overflowY: "auto",
+  background: "$gray2",
+  borderRadius: "$md",
+  padding: "$4",
+  margin: 0,
   listStyle: "none",
-  fontFamily: "$mono",
+  boxShadow: "$lg",
+  zIndex: 10,
 
-  "a, button": {
-    color: "inherit",
-    textDecoration: "none",
-    display: "block",
-    padding: "$1",
+  "li button": {
     width: "100%",
+    textAlign: "left",
+    padding: "$2 $4",
+    background: "none",
+    border: "none",
+    borderRadius: "$sm",
+    color: "$gray11",
+    cursor: "pointer",
+    fontSize: "$sm",
+    transition: "all 0.2s",
 
     "&:hover": {
-      background: "$gray6",
+      background: "$gray4",
+    },
+
+    "&[data-level='1']": {
+      paddingLeft: "$4",
+    },
+    "&[data-level='2']": {
+      paddingLeft: "$8",
+    },
+    "&[data-level='3']": {
+      paddingLeft: "$12",
+    },
+    "&[data-level='4']": {
+      paddingLeft: "$16",
     },
   },
 });

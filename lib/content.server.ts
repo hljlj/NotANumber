@@ -13,6 +13,7 @@ const POST_FILENAME = "index.mdx";
 export type Heading = {
   id: string;
   text: string;
+  level: number;
 };
 
 export type Post = {
@@ -79,17 +80,18 @@ export const getPost = async (slug: string): Promise<Post> => {
 };
 
 const getHeadings = (content: string): Heading[] => {
-  return (
-    content
-      .split("\n")
-      /* I only care about h2s, so explicitly look for 2 hashtags */
-      .filter((line) => line.match(/^##\s/))
-      .map((line) => line.replace("##", "").trim())
-      .map((text) => ({
+  return content
+    .split("\n")
+    .filter((line) => line.match(/^#{1,4}\s/))
+    .map((line) => {
+      const level = line.match(/^#+/)[0].length;
+      const text = line.replace(/^#+/, "").trim();
+      return {
         text,
         id: getId(text),
-      }))
-  );
+        level,
+      };
+    });
 };
 
 export const getAllPosts = async (): Promise<PostMetadata[]> => {

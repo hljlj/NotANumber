@@ -9,13 +9,4 @@ export const SharedState = ({ initialState, children }) => {
   );
 };
 
-export const useSharedState = (defaultValue) => {
-  const localState = React.useState(defaultValue);
-  const state = React.useContext(Context);
 
-  if (!state) {
-    return localState;
-  }
-
-  return [state.state, state.setState];
-};

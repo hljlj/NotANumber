@@ -14,7 +14,6 @@ import { darkTheme, styled } from "~/stitches.config";
 import { Heading, Subheading } from "~/components/Heading";
 import { OrderedList } from "~/components/OrderedList";
 import { NewsletterForm } from "~/components/NewsletterForm";
-import { MobileBottomBar } from "~/components/MobileBottomBar";
 import { Link } from "~/components/Link";
 import { Content } from "~/components/Content";
 // import { ThemeToggle } from "~/components/ThemeToggle";
@@ -70,7 +69,6 @@ export default function PostPage({ content }: { content: Post }) {
         <meta property="og:url" content={`${BASE_URL}/${slug}`} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <MobileBottomBar headings={headings} />
       <Nav>
         <h2>
           <NextLink href="/">NaN</NextLink>

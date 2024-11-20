@@ -1,16 +1,76 @@
 ---
-title: "New article1"
-blurb: "Exploring how to use the React key prop to power your Framer Motion animations."
-description: "Exploring how to use the React key prop to power your Framer Motion animations."
+title: "使用二进制，十进制计数器集成计数器生成N进制计数器"
+description: "计数器生成N进制计数器"
 publishedAt: "2023-02-22"
 editedAt: "2023-02-22"
 category: "Article"
 ---
 
-## Refresh Component
+使用二进制，十进制计数器集成计数器生成N进制计数器
 
-One utility component I use _all the time_ is this refresh component:
+## 补充理解
+1. 大模数->小模数:例如四位二进制(16进制)生成7进制
+2. 小模数->大模数:与上相反
 
-## Infinite Carousel
+***总结***：大和小的概念在于进制的大小，注意汉字表示的数字和直接用数字表示的进制区别。
 
-Here's another animation I'm especially fond of that uses keys in conjunction.
+## 一、大模数->小模数
+### 1. 异步清零法与同步清零法
+#### 1.1 异步清零(74LS90为例实现七进制加法计数器)
+!(https://i-blog.csdnimg.cn/blog_migrate/e10da96fd48615d3b5366e28e803729d.png)
+当在工作循环终点处生成控制信号时，由于采用异步清零法，则0110这个状态无法保留在循环中，无法实现七进制，所以要采用如上连接方式，使得出现0111这个短暂的状态完成清零，而由于很短暂，故不包含在工作循环中。
+#### 1.2 同步清零
+假设我们让以上的计数器采用同步清零法，不改变以上电路的情况下，出现0111时需要等到再次出现下降沿时才清零，此时则实现的是八进制(多加了等待的部分)。如下：
+!(https://i-blog.csdnimg.cn/blog_migrate/c4cfb548413f6256131a34baeecbd2ab.png)
+总结如下：
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/574a1c2610cc247f1d23ca47f6257dd2.png)
+### 2.异步置数与同步置数
+#### 2.1 同步置数
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/1adbefeb07f7ddf6143bbea2fdeca235.png)
+由于要使用置数功能，则置数控制端LD接入电路，清零控制端CR不工作置为无效状态。通过D3D2D1D0表示置到哪，即如图，在置数数据输入端D3D2D1D0输入0010，则在到达终点后1101，LD低有效但还不置，等到下一个工作点的上升沿处置数，1101被保留在工作循环当中，然后置到0010。
+
+**总结：**
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/cccefe031c54de1e96e48fecd5172cfe.png)
+#### 2.2 异步置数
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/aa8a4fd7f5b770ccd2a40ea35671055e.png)
+在工作循环终点1101的下一个状态1110生成控制信号,使得LD低有效，则立刻置数到工作循环的起点0010，由于1110是一瞬间，则不包括在工作循环中，进而也就实现了十二进制加法计数器。
+### 3.三步+两个问题
+#### 3.1 三步的过程
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/5d3b995046d8f565d6feec2d15f57205.png)
+#### 3.2 弄清两个重要问题
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/6f55b5a43aa30df36cf103edbb5069ee.png)
+注意点补充：
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/3779693893355084f79457b37ec142c8.png)
+## 二.小模数->大模数
+补充74LS90特点:
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/0a160902e52b8943fe69268b5dfd8cf6.png)
+以上为74LS90(即二--五--十进制加法器)逻辑电路
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/109a527ea531f8a8722d02c894f2e398.png)
+以上为74LS90构成8421形式(2进制先运行,驱动5进制)，最高位为Q3
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/1eb66070100e3d3f3be5919f969e7092.png)
+以上为74LS90构成5421形式(5进制先运行,驱动2进制)，最高位为Q0
+### 1.异步方式扩展
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/e4c48e2f17f4ac73d6ad09cac8f0a59c.png)
+
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/dcf23fd83d00db11c4327634d2a4fefc.png) 
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/616fe1f946af44e49da5c6edb756f64c.png)
+当工作状态由1001变为0000时，正好是下降沿，又由于右片74LS90的clk是低有效工作，此时就会驱动它作为十位数计数一次。如果右片的clk0是高有效工作，则要在q3和clk0连接路线上接一个非门。(以上是两片均构成8421码形式，即二进制先运行驱动五进制)
+
+以下则为两片构成5421形式实现一百进制加法器
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/6499b811c015a10b8ffb912c6ca3e55b.png)
+### 2.同步方式扩展
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/92fc0aea607b1509a9b0215c72bed8d0.png)
+左边的低位片q3q2q1q0没有到达1111时，输出进位一直输出是0，则虽然高位片clk收到了上升沿信号，但由于EP和ET受到q3q2q1q0影响不高有效，即不允许计数。所以只有四个q同时为1时，使得EP和ET高有效，然后再来一个clk上升沿，才运行右边的高位片动作一次，与此同时，低位片运行一周由1111返回0000，即符合了级联扩展规律。
+
+实现256进制加法计数器用**异步扩展**如下：
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/5bd001c13af0559780483dc745004ac6.png)
+
+ - 对比可知：由于异步多了个非门器件，故要省器件选同步更好。
+ - 总结：如果74LS90采用同步扩展，根据以上同步扩展规律，需要有进位端和计数控制端，而它没有，则不能进行同步扩展。推广一下便可明白，异步扩展的应用范围更广，因为它用到的是更多普遍的端口。
+## 三.集成计数器的综合应用
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/1a07119050968e52312637829be91c59.png)
+ - 注意点：遇到扩展不要只知道大模数变到小模数或小模数变到大模数，其实还有更多步骤的变换。例如以上的74LS161是四位二进制，即16进制，要扩展到百进制，用两片可以扩展到256进制，超过了目标一百，故而还得进行大模数变小模数的步骤。
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/d50c5e645950402ab883f049aa497408.png)
+ - 易错点：以上图是为了说明，在由0000开始找百进制工作循环的终点时，不应该找10011001表示两个9，这是十进制概念，而我们用的是四位二进制计数器，故而要以这8位二进制来表示99，即01100011.
+ - 实现图如下：
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/692fd3383c1834bcc8adc610e5cd9d20.png)
