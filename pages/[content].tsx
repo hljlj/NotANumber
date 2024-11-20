@@ -68,7 +68,7 @@ const buildHeadingTree = (headings: Heading[]): TreeNode[] => {
 };
 
 const NavHeading = ({ heading, onHeadingClick }: { heading: TreeNode; onHeadingClick: (id: string) => void }) => {
-  const [isOpen, setIsOpen] = React.useState(true);
+  const [isOpen, setIsOpen] = React.useState(false);
   const hasChildren = heading.children.length > 0;
   const level = Math.min(heading.level - 1, 2);
 
