@@ -4,11 +4,13 @@ import { FaGithub, FaTwitter } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, X } from 'lucide-react';
 import Link from "next/link";
-
+import { routes } from "~/lib/config";
 import { styled } from "~/stitches.config";
 import { BASE_URL } from "~/lib/config";
 import { Post } from "~/components/Post";
 import { DynamicIsland } from "~/components/MobileNavIsland";
+import { useRouter } from 'next/router';
+
 
 const posts = [
   {
@@ -98,6 +100,7 @@ const posts = [
     ]
   }
 ];
+
 
 const NavBar = styled("nav", {
   display: "flex",
@@ -341,7 +344,8 @@ export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [searchValue, setSearchValue] = useState("");
-
+  // 在组件内部
+  const router = useRouter();
   const postsPerPage = 5;
   
   // 将所有分类的文章合并为一个数组
@@ -424,7 +428,7 @@ export default function HomePage() {
                     {category.items.map(item => (
                       <DropdownItem 
                         key={item.post.slug} 
-                        href={`/${item.post.slug}`}
+                        href={routes.posts.detail(item.post.slug)}
                       >
                         {item.post.title}
                       </DropdownItem>
@@ -486,7 +490,7 @@ export default function HomePage() {
                         <RecentArticleCard
                           key={article.post.slug}
                           onClick={() => {
-                            window.location.href = `/posts/${article.post.slug}`;
+                            router.push(routes.posts.detail(article.post.slug));
                           }}
                         >
                           {article.children}
