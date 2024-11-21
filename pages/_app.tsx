@@ -1,6 +1,5 @@
 import { ThemeProvider } from "next-themes";
 import { Analytics } from "@vercel/analytics/react";
-
 import { ThemeToggle } from "~/components/ThemeToggle";
 import { styled, darkTheme } from "~/stitches.config";
 import "../styles/fonts.css";

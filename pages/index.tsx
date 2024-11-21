@@ -10,7 +10,7 @@ import { BASE_URL } from "~/lib/config";
 import { Post } from "~/components/Post";
 import { DynamicIsland } from "~/components/MobileNavIsland";
 import { useRouter } from 'next/router';
-
+import Image from "next/image";
 
 const posts = [
   {
@@ -23,7 +23,13 @@ const posts = [
           description: "Exploring how to use the React key prop to power your Framer Motion animations.",
           editedAt: "2021-03-21",
         },
-        children: <img src="/favicon.ico" alt="Description of the image" style={{ width: '100%', height: 'auto' }} />,
+        children: <Image 
+          src="/favicon.ico" 
+          alt="Description of the image" 
+          width={100}
+          height={100}
+          style={{ width: '100%', height: 'auto' }}
+          priority={true} />,
       },
       {
         post: {
@@ -32,7 +38,13 @@ const posts = [
           description: "Exploring how to use the React key prop to power your Framer Motion animations.",
           editedAt: "2021-03-21",
         },
-        children: <img src="/favicon.ico" alt="Description of the image" style={{ width: '100%', height: 'auto' }} />,
+        children: <Image 
+          src="/favicon.ico" 
+          alt="Description of the image" 
+          width={100}
+          height={100}
+          style={{ width: '100%', height: 'auto' }}
+          priority={true} />,
       },
       {
         post: {
@@ -41,7 +53,13 @@ const posts = [
           description: "Exploring how to use the React key prop to power your Framer Motion animations.",
           editedAt: "2021-03-21",
         },
-        children: <img src="/favicon.ico" alt="Description of the image" style={{ width: '100%', height: 'auto' }} />,
+        children: <Image 
+          src="/favicon.ico" 
+          alt="Description of the image" 
+          width={100}
+          height={100}
+          style={{ width: '100%', height: 'auto' }}
+          priority={true} />,
       },
       {
         post: {
@@ -50,7 +68,13 @@ const posts = [
           description: "Exploring how to use the React key prop to power your Framer Motion animations.",
           editedAt: "2021-03-21",
         },
-        children: <img src="/favicon.ico" alt="Description of the image" style={{ width: '100%', height: 'auto' }} />,
+        children: <Image 
+          src="/favicon.ico" 
+          alt="Description of the image" 
+          width={100}
+          height={100}
+          style={{ width: '100%', height: 'auto' }}
+          priority={true} />,
       },
       {
         post: {
@@ -59,7 +83,13 @@ const posts = [
           description: "Exploring how to use the React key prop to power your Framer Motion animations.",
           editedAt: "2021-03-21",
         },
-        children: <img src="/favicon.ico" alt="Description of the image" style={{ width: '100%', height: 'auto' }} />,
+        children: <Image 
+          src="/favicon.ico" 
+          alt="Description of the image" 
+          width={100}
+          height={100}
+          style={{ width: '100%', height: 'auto' }}
+          priority={true} />,
       },
       {
         post: {
@@ -68,7 +98,13 @@ const posts = [
           description: "Exploring how to use the React key prop to power your Framer Motion animations.",
           editedAt: "2021-03-21",
         },
-        children: <img src="/favicon.ico" alt="Description of the image" style={{ width: '100%', height: 'auto' }} />,
+        children: <Image 
+          src="/favicon.ico" 
+          alt="Description of the image" 
+          width={100}
+          height={100}
+          style={{ width: '100%', height: 'auto' }}
+          priority={true} />,
       },
       {
         post: {
@@ -77,7 +113,13 @@ const posts = [
           description: "Exploring how to use the React key prop to power your Framer Motion animations.",
           editedAt: "2021-03-29",
         },
-        children: <img src="/favicon.ico" alt="Description of the image" style={{ width: '100%', height: 'auto' }} />,
+        children: <Image 
+          src="/favicon.ico" 
+          alt="Description of the image" 
+          width={100}
+          height={100}
+          style={{ width: '100%', height: 'auto' }}
+          priority={true} />,
       }
     ]
   },
@@ -95,7 +137,13 @@ const posts = [
           description: "Exploring how to use the React key prop to power your Framer Motion animations.",
           editedAt: "2021-03-21",
         },
-        children: <img src="/favicon.ico" alt="Description of the image" style={{ width: '100%', height: 'auto' }} />,
+        children: <Image 
+          src="/favicon.ico" 
+          alt="Description of the image" 
+          width={100}
+          height={100}
+          style={{ width: '100%', height: 'auto' }}
+          priority={true} />,
       }
     ]
   }
