@@ -85,7 +85,7 @@ const NavHeading = ({ heading, onHeadingClick }: { heading: TreeNode; onHeadingC
         </NavLink>
       </NavItemContent>
       {heading.children.length > 0 && (
-        <NavList>
+        <NavList data-level={level}>
           {heading.children.map((child) => (
             <NavHeading
               key={child.id}
@@ -195,8 +195,14 @@ const NavItemContent = styled("div", {
 const NavList = styled("ul", {
   padding: 0,
   margin: 0,
-  marginLeft: "$4",
-  marginTop: "$4", // 添加上边距，使其距离 NaN 一个字的位置
+  marginTop: "$4",
+  variants: {
+    'data-level': {
+      0: { marginLeft: 0 },      // 一级标题不缩进
+      1: { marginLeft: "$4" },   // 二级标题缩进
+      2: { marginLeft: "$4" },   // 三级标题缩进
+    },
+  },
 });
 
 const NavLink = styled("a", {
