@@ -33,8 +33,21 @@ export const Subheading = ({ children }) => {
   return <H3 id={id}>{children}</H3>;
 };
 
+export const SubSubheading = ({ children }) => {
+  const id = getId(children);
+  return <H4 id={id}>{children}</H4>;
+};
+
 const H3 = styled("h3", {
   fontSize: "$xl",
+  scrollMarginTop: "$28",
+  marginTop: "$8",
+  marginBottom: "$6",
+  fontWeight: "normal",
+});
+
+const H4 = styled("h4", {
+  fontSize: "$lg",
   scrollMarginTop: "$28",
   marginTop: "$8",
   marginBottom: "$6",

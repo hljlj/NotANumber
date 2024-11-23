@@ -1,18 +1,19 @@
 import React from "react";
 import type { GetStaticPropsContext } from "next";
-import NextLink from "next/link";
 import Head from "next/head";
 import { getMDXComponent } from "mdx-bundler/client";
 import Balancer from "react-wrap-balancer";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import { ChevronDown, ChevronRight } from 'lucide-react';
+import { FaArrowLeft } from "react-icons/fa";
+import { useRouter } from 'next/router';
 
 import { getAllPosts, getPost, type Post, type Heading } from "~/lib/content.server";
 import { BASE_URL } from "~/lib/config";
 import { darkTheme, styled } from "~/stitches.config";
 
-import { Heading as HeadingComponent, Subheading } from "~/components/Heading";
+import { Heading as HeadingComponent, Subheading, SubSubheading } from "~/components/Heading";
 import { OrderedList } from "~/components/OrderedList";
 import { NewsletterForm } from "~/components/NewsletterForm";
 import { Link } from "~/components/Link";
@@ -68,7 +69,7 @@ const buildHeadingTree = (headings: Heading[]): TreeNode[] => {
 };
 
 const NavHeading = ({ heading, onHeadingClick }: { heading: TreeNode; onHeadingClick: (id: string) => void }) => {
-  const level = Math.min(heading.level - 1, 2);
+  const level = Math.min(heading.level - 1, 3);
 
   return (
     <NavItem>
@@ -116,6 +117,9 @@ export default function PostPage({ content }: { content: Post }) {
     }
   };
 
+  const router = useRouter();
+  const controls = useAnimation();
+
   return (
     <PageWrapper>
       <Head>
@@ -130,7 +134,43 @@ export default function PostPage({ content }: { content: Post }) {
       </Head>
       <Nav>
         <NavHeader>
-          <NextLink href="/">NaN</NextLink>
+          <motion.button
+            onClick={() => {
+              controls.start({
+                x: "-150%",
+                scale: 0.8,
+                transition: {
+                  duration: 0.4,
+                  ease: [0.32, 0, 0.67, 0]
+                }
+              }).then(() => {
+                router.push('/');
+              });
+            }}
+            style={{ 
+              fontSize: "2rem",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: 0,
+              display: "flex",
+              alignItems: "center",
+              color: "var(--colors-gray11)",
+              paddingRight: "1rem"
+            }}
+            whileHover={{
+              color: "var(--colors-gray12)",
+              x: -4,
+              transition: { duration: 0.2 }
+            }}
+          >
+            <motion.div
+              initial={{ x: 0, scale: 1 }}
+              animate={controls}
+            >
+              <FaArrowLeft />
+            </motion.div>
+          </motion.button>
         </NavHeader>
         <NavList>
           {buildHeadingTree(headings).map((heading) => (
@@ -164,6 +204,7 @@ export default function PostPage({ content }: { content: Post }) {
             components={{
               h2: HeadingComponent as any,
               h3: Subheading as any,
+              h4: SubSubheading as any,
               ol: OrderedList as any,
               a: Link as any,
             }}
@@ -198,9 +239,9 @@ const NavList = styled("ul", {
   marginTop: "$4",
   variants: {
     'data-level': {
-      0: { marginLeft: 0 },      // 一级标题不缩进
-      1: { marginLeft: "$4" },   // 二级标题缩进
-      2: { marginLeft: "$4" },   // 三级标题缩进
+      1: { marginLeft: "$4" },
+      2: { marginLeft: "$8" },
+      3: { marginLeft: "$12" }
     },
   },
 });
@@ -218,6 +259,7 @@ const NavLink = styled("a", {
       0: { fontWeight: "600" },
       1: { fontWeight: "500" },
       2: { fontWeight: "400" },
+      3: { fontWeight: "400", fontSize: "0.875rem" }
     },
   },
 });
