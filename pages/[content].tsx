@@ -68,24 +68,11 @@ const buildHeadingTree = (headings: Heading[]): TreeNode[] => {
 };
 
 const NavHeading = ({ heading, onHeadingClick }: { heading: TreeNode; onHeadingClick: (id: string) => void }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const hasChildren = heading.children.length > 0;
   const level = Math.min(heading.level - 1, 2);
 
   return (
     <NavItem>
       <NavItemContent>
-        {hasChildren && (
-          <CollapseButton onClick={() => setIsOpen(!isOpen)}>
-            <motion.span
-              initial={false}
-              animate={{ rotate: isOpen ? 0 : -90 }}
-              transition={{ duration: 0.2 }}
-            >
-              <ChevronDown size={16} />
-            </motion.span>
-          </CollapseButton>
-        )}
         <NavLink 
           href={`#${heading.id}`}
           onClick={(e) => {
@@ -97,27 +84,17 @@ const NavHeading = ({ heading, onHeadingClick }: { heading: TreeNode; onHeadingC
           {heading.text}
         </NavLink>
       </NavItemContent>
-      <AnimatePresence initial={false}>
-        {hasChildren && isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            style={{ overflow: "hidden" }}
-          >
-            <NavList>
-              {heading.children.map((child) => (
-                <NavHeading
-                  key={child.id}
-                  heading={child}
-                  onHeadingClick={onHeadingClick}
-                />
-              ))}
-            </NavList>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {heading.children.length > 0 && (
+        <NavList>
+          {heading.children.map((child) => (
+            <NavHeading
+              key={child.id}
+              heading={child}
+              onHeadingClick={onHeadingClick}
+            />
+          ))}
+        </NavList>
+      )}
     </NavItem>
   );
 };
@@ -219,6 +196,7 @@ const NavList = styled("ul", {
   padding: 0,
   margin: 0,
   marginLeft: "$4",
+  marginTop: "$4", // 添加上边距，使其距离 NaN 一个字的位置
 });
 
 const NavLink = styled("a", {
@@ -235,20 +213,6 @@ const NavLink = styled("a", {
       1: { fontWeight: "500" },
       2: { fontWeight: "400" },
     },
-  },
-});
-
-const CollapseButton = styled("button", {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  background: "transparent",
-  border: "none",
-  padding: "$1",
-  cursor: "pointer",
-  color: "$gray11",
-  "&:hover": {
-    color: "$gray12",
   },
 });
 
@@ -304,7 +268,6 @@ const Nav = styled("nav", {
   },
 
   ul: {
-    marginTop: "auto",
     listStyle: "none",
     fontSize: "$sm",
 

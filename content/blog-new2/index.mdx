@@ -7,10 +7,19 @@ editedAt: "2023-02-22"
 category: "Article"
 ---
 
-## Refresh Component
+## 补充理解
+1. 大模数->小模数:例如四位二进制(16进制)生成7进制
+2. 小模数->大模数:与上相反
 
-One utility component I use _all the time_ is this refresh component:
+***总结***：大和小的概念在于进制的大小，注意汉字表示的数字和直接用数字表示的进制区别。
 
-## Infinite Carousel
-
-Here's another animation I'm especially fond of that uses keys in conjunction.
+## 一、大模数->小模数
+### 1. 异步清零法与同步清零法
+#### 1.1 异步清零(74LS90为例实现七进制加法计数器)
+!(https://i-blog.csdnimg.cn/blog_migrate/e10da96fd48615d3b5366e28e803729d.png)
+当在工作循环终点处生成控制信号时，由于采用异步清零法，则0110这个状态无法保留在循环中，无法实现七进制，所以要采用如上连接方式，使得出现0111这个短暂的状态完成清零，而由于很短暂，故不包含在工作循环中。
+#### 1.2 同步清零
+假设我们让以上的计数器采用同步清零法，不改变以上电路的情况下，出现0111时需要等到再次出现下降沿时才清零，此时则实现的是八进制(多加了等待的部分)。如下：
+!(https://i-blog.csdnimg.cn/blog_migrate/c4cfb548413f6256131a34baeecbd2ab.png)
+总结如下：
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/574a1c2610cc247f1d23ca47f6257dd2.png)
