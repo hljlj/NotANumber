@@ -149,7 +149,6 @@ const posts = [
   }
 ];
 
-
 const NavBar = styled("nav", {
   display: "flex",
   alignItems: "center",
@@ -375,6 +374,23 @@ const RecentArticlesGrid = styled("div", {
   display: "grid",
   gridTemplateColumns: "repeat(3, 1fr)",
   gap: "16px",
+  maxHeight: "400px",
+  overflowY: "auto",
+  scrollbarWidth: "thin",
+  "&::-webkit-scrollbar": {
+    width: "6px",
+  },
+  "&::-webkit-scrollbar-track": {
+    background: "$gray4",
+    borderRadius: "3px",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    background: "$gray8",
+    borderRadius: "3px",
+    "&:hover": {
+      background: "$gray9",
+    },
+  },
 });
 
 const RecentArticleCard = styled("div", {
