@@ -371,9 +371,9 @@ const SearchPopupButton = styled("button", {
 });
 
 const RecentArticlesGrid = styled("div", {
-  display: "grid",
-  gridTemplateColumns: "repeat(3, 1fr)",
-  gap: "16px",
+  display: "flex",
+  flexDirection: "column",
+  gap: "12px",
   maxHeight: "400px",
   overflowY: "auto",
   scrollbarWidth: "thin",
@@ -394,12 +394,48 @@ const RecentArticlesGrid = styled("div", {
 });
 
 const RecentArticleCard = styled("div", {
+  display: "flex",
+  alignItems: "flex-start",
+  gap: "16px",
+  padding: "12px",
   borderRadius: "8px",
-  overflow: "hidden",
   cursor: "pointer",
-  transition: "transform 0.2s",
+  transition: "background-color 0.2s",
   "&:hover": {
-    transform: "scale(1.05)",
+    backgroundColor: "$gray4",
+  },
+
+  // Image container
+  "& > div:first-child": {
+    flexShrink: 0,
+    width: "80px",
+    height: "80px",
+    borderRadius: "4px",
+    overflow: "hidden",
+  },
+
+  // Content container
+  "& > div:last-child": {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    gap: "4px",
+  },
+
+  // Title
+  "& h4": {
+    margin: "0",
+    fontSize: "16px",
+    fontWeight: "500",
+    color: "$gray12",
+  },
+
+  // Description
+  "& p": {
+    margin: "0",
+    fontSize: "14px",
+    color: "$gray11",
+    lineHeight: "1.4",
   },
 });
 
@@ -557,14 +593,13 @@ export default function HomePage() {
                             router.push(routes.posts.detail(article.post.slug));
                           }}
                         >
-                          {article.children}
-                          <p style={{ 
-                            margin: "8px 0",
-                            fontSize: "14px",
-                            fontWeight: "500"
-                          }}>
-                            {article.post.title}
-                          </p>
+                          <div>
+                            {article.children}
+                          </div>
+                          <div>
+                            <h4>{article.post.title}</h4>
+                            <p>{article.post.description}</p>
+                          </div>
                         </RecentArticleCard>
                       ))}
                       {searchValue && searchResults.length === 0 && (
