@@ -6,7 +6,6 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { Row } from '~/components/layout/Row';
 import { BackArrow } from '~/components/BackArrow';
-import { FaArrowLeft } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { ProjectNavigation } from '~/components/ProjectNavigation';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { FaArrowLeft } from 'react-icons/fa';
+import { HiOutlineArrowLeft } from 'react-icons/hi';
 
 /**
  * BackArrow Component
@@ -31,7 +31,7 @@ export const BackArrow = () => {
         });
       }}
       style={{ 
-        fontSize: "2rem",
+        fontSize: "1.75rem",
         background: "none",
         border: "none",
         cursor: "pointer",
@@ -51,7 +51,7 @@ export const BackArrow = () => {
         initial={{ x: 0, scale: 1 }}
         animate={controls}
       >
-        <FaArrowLeft />
+        <HiOutlineArrowLeft />
       </motion.div>
     </motion.button>
   );

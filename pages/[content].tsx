@@ -6,8 +6,8 @@ import Balancer from "react-wrap-balancer";
 import Image from "next/image";
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import { ChevronDown, ChevronRight } from 'lucide-react';
-import { FaArrowLeft } from "react-icons/fa";
 import { useRouter } from 'next/router';
+import { BackArrow } from "~/components/BackArrow";
 
 import { getAllPosts, getPost, type Post, type Heading } from "~/lib/content.server";
 import { BASE_URL } from "~/lib/config";
@@ -134,43 +134,7 @@ export default function PostPage({ content }: { content: Post }) {
       </Head>
       <Nav>
         <NavHeader>
-          <motion.button
-            onClick={() => {
-              controls.start({
-                x: "-150%",
-                scale: 0.8,
-                transition: {
-                  duration: 0.4,
-                  ease: [0.32, 0, 0.67, 0]
-                }
-              }).then(() => {
-                router.push('/');
-              });
-            }}
-            style={{ 
-              fontSize: "2rem",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: 0,
-              display: "flex",
-              alignItems: "center",
-              color: "var(--colors-gray11)",
-              paddingRight: "1rem"
-            }}
-            whileHover={{
-              color: "var(--colors-gray12)",
-              x: -4,
-              transition: { duration: 0.2 }
-            }}
-          >
-            <motion.div
-              initial={{ x: 0, scale: 1 }}
-              animate={controls}
-            >
-              <FaArrowLeft />
-            </motion.div>
-          </motion.button>
+          <BackArrow />
         </NavHeader>
         <NavList>
           {buildHeadingTree(headings).map((heading) => (
