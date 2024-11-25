@@ -1,6 +1,6 @@
 "use client";
 
-import { Slider } from "app/svg-paths/components/slider";
+import { Slider } from "~/components/Slider";
 import { animate, motion, useMotionValue, useTransform } from "framer-motion";
 
 export function Icon() {
