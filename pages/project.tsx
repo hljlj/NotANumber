@@ -1,10 +1,14 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 import { styled } from '~/stitches.config';
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 import Head from 'next/head';
 import Image from 'next/image';
+import { Row } from '~/components/layout/Row';
+import { BackArrow } from '~/components/BackArrow';
+import { FaArrowLeft } from 'react-icons/fa';
+import { useRouter } from 'next/router';
+import { ProjectNavigation } from '~/components/ProjectNavigation';
 
 // Sample project data - replace with your actual projects
 const projects = [
@@ -12,87 +16,111 @@ const projects = [
     id: 1,
     title: 'Project 1',
     description: 'Description of project 1',
-    image: '/favicon.ico', // Replace with actual project image
+    image: '/favicon.ico',
     link: 'https://project1.com'
   },
   {
     id: 2,
     title: 'Project 2',
     description: 'Description of project 2',
-    image: '/favicon.ico', // Replace with actual project image
+    image: '/favicon.ico',
     link: 'https://project2.com'
-  },
-  // Add more projects as needed
+  }
 ];
 
-const ProjectsContainer = styled('div', {
-  width: '100%',
-  maxWidth: '1200px',
-  margin: '0 auto',
-  padding: '2rem',
-  position: 'relative',
-  overflow: 'hidden',
-});
-
-const CarouselButton = styled('button', {
-  position: 'absolute',
-  top: '50%',
-  transform: 'translateY(-50%)',
-  background: 'rgba(0, 0, 0, 0.5)',
-  border: 'none',
-  borderRadius: '50%',
-  width: '40px',
-  height: '40px',
+const Wrapper = styled('div', {
+  minHeight: '100vh',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  cursor: 'pointer',
-  color: 'white',
-  zIndex: 10,
-  
-  '&:hover': {
-    background: 'rgba(0, 0, 0, 0.7)',
-  },
-  
-  '&.prev': {
-    left: '1rem',
-  },
-  
-  '&.next': {
-    right: '1rem',
-  }
+  padding: '$8',
 });
 
-const ProjectSlide = styled(motion.div, {
+const ContentWrapper = styled('div', {
+  position: 'relative',
   width: '100%',
-  height: '400px',
-  position: 'absolute',
+  maxWidth: 1200,
+  margin: '0 auto',
+});
+
+const NavWrapper = styled('nav', {
+  position: 'fixed',
+  top: '$8',
+  left: '$8',
+  color: '$gray11',
+
+  a: {
+    textDecoration: 'none',
+  },
+});
+
+const LinkWrapper = styled('div', {
+  fontFamily: '$serif',
+  fontSize: '$xl',
+
+  a: {
+    color: '$gray11',
+  },
+});
+
+const ProjectsList = styled('ul', {
+  fontFamily: '$mono',
+  fontSize: '$sm',
+  listStyle: 'none',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '$2',
+});
+
+const ProjectItem = styled(Link, {
+  color: '$gray11',
+  variants: {
+    active: {
+      true: {
+        color: '$gray12',
+      },
+    },
+  },
+});
+
+const ProjectContainer = styled('div', {
+  position: 'relative',
+  width: '100%',
+  maxWidth: 800,
+  margin: '0 auto',
+});
+
+const ProjectDisplay = styled(motion.div, {
+  width: '100%',
+  margin: '0 auto',
+  padding: '2rem 4rem',
+  background: '$gray4',
+  borderRadius: '$base',
+  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  padding: '2rem',
-  background: '#f5f5f5',
-  borderRadius: '8px',
-  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+  position: 'relative',
+  overflow: 'hidden',
 });
 
 const ProjectTitle = styled('h2', {
   fontSize: '2rem',
   marginBottom: '1rem',
-  color: '#333',
+  color: '$gray12',
 });
 
 const ProjectDescription = styled('p', {
   fontSize: '1.1rem',
   marginBottom: '1.5rem',
-  color: '#666',
+  color: '$gray11',
   textAlign: 'center',
   maxWidth: '600px',
 });
 
 const ProjectLink = styled('a', {
-  color: '#0070f3',
+  color: '$blue9',
   textDecoration: 'none',
   '&:hover': {
     textDecoration: 'underline',
@@ -100,74 +128,78 @@ const ProjectLink = styled('a', {
 });
 
 const ProjectPage = () => {
-  const [[page, direction], setPage] = useState([0, 0]);
+  const [currentProject, setCurrentProject] = React.useState(0);
+  const router = useRouter();
+  const controls = useAnimation();
 
-  const paginate = (newDirection: number) => {
-    const newPage = (page + newDirection + projects.length) % projects.length;
-    setPage([newPage, newDirection]);
+  const nextProject = () => {
+    setCurrentProject((prev) => (prev + 1) % projects.length);
   };
 
-  const variants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 1000 : -1000,
-      opacity: 0
-    }),
-    center: {
-      zIndex: 1,
-      x: 0,
-      opacity: 1
-    },
-    exit: (direction: number) => ({
-      zIndex: 0,
-      x: direction < 0 ? 1000 : -1000,
-      opacity: 0
-    })
+  const prevProject = () => {
+    setCurrentProject((prev) => (prev - 1 + projects.length) % projects.length);
   };
 
   return (
-    <>
+    <Wrapper>
       <Head>
         <title>Projects - NotANumber</title>
         <meta name="description" content="View our featured projects" />
       </Head>
       
-      <ProjectsContainer>
-        <AnimatePresence initial={false} custom={direction}>
-          <ProjectSlide
-            key={page}
-            custom={direction}
-            variants={variants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{
-              x: { type: "spring", stiffness: 300, damping: 30 },
-              opacity: { duration: 0.2 }
-            }}
-          >
-            <Image
-              src={projects[page].image}
-              alt={projects[page].title}
-              width={200}
-              height={200}
-              style={{ marginBottom: '1.5rem' }}
-            />
-            <ProjectTitle>{projects[page].title}</ProjectTitle>
-            <ProjectDescription>{projects[page].description}</ProjectDescription>
-            <ProjectLink href={projects[page].link} target="_blank" rel="noopener noreferrer">
-              View Project
-            </ProjectLink>
-          </ProjectSlide>
-        </AnimatePresence>
+      <ContentWrapper>
+        <Row as={NavWrapper} css={{ flexDirection: 'column', gap: '$4' }}>
+          <LinkWrapper>
+            <BackArrow />
+          </LinkWrapper>
+          <ProjectsList>
+            {projects.map((project, index) => (
+              <li key={project.id}>
+                <ProjectItem 
+                  href="#" 
+                  active={currentProject === index}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setCurrentProject(index);
+                  }}
+                >
+                  {'> project-' + (index + 1)}
+                </ProjectItem>
+              </li>
+            ))}
+          </ProjectsList>
+        </Row>
 
-        <CarouselButton className="prev" onClick={() => paginate(-1)}>
-          <ChevronLeft size={24} />
-        </CarouselButton>
-        <CarouselButton className="next" onClick={() => paginate(1)}>
-          <ChevronRight size={24} />
-        </CarouselButton>
-      </ProjectsContainer>
-    </>
+        <ProjectContainer>
+          <ProjectNavigation
+            onPrevious={prevProject}
+            onNext={nextProject}
+          />
+          <AnimatePresence mode="wait">
+            <ProjectDisplay
+              key={currentProject}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.4 }}
+            >
+              <Image
+                src={projects[currentProject].image}
+                alt={projects[currentProject].title}
+                width={200}
+                height={200}
+                style={{ marginBottom: '1.5rem' }}
+              />
+              <ProjectTitle>{projects[currentProject].title}</ProjectTitle>
+              <ProjectDescription>{projects[currentProject].description}</ProjectDescription>
+              <ProjectLink href={projects[currentProject].link} target="_blank" rel="noopener noreferrer">
+                View Project
+              </ProjectLink>
+            </ProjectDisplay>
+          </AnimatePresence>
+        </ProjectContainer>
+      </ContentWrapper>
+    </Wrapper>
   );
 };
 
