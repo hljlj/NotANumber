@@ -236,13 +236,13 @@ const DropdownItem = styled(Link, {
   }
 });
 
-const NavItem = styled("div", {
+const NavItem = styled(Link, {
   position: "relative",
   padding: "$2",
   color: "$gray11",
   cursor: "pointer",
   transition: "color 0.2s",
-
+  textDecoration: "none",
   "&:hover": {
     color: "$gray12",
   }
@@ -513,6 +513,7 @@ export default function HomePage() {
           {posts.map(category => (
             <NavItem 
               key={category.category}
+              href={category.category === "Article" ? "/" : `/${category.category.toLowerCase()}`}
               onMouseEnter={() => setOpenCategory(category.category)}
               onMouseLeave={() => setOpenCategory(null)}
             >
