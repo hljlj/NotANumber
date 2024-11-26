@@ -16,6 +16,7 @@
   "dependencies": {
     "@codesandbox/sandpack-react": "^1.18.4",
     "@codesandbox/sandpack-themes": "^1.17.0",
+    "@douyinfe/semi-next": "^2.70.1",
     "@douyinfe/semi-ui": "^2.70.1",
     "@radix-ui/colors": "^0.1.8",
     "@radix-ui/react-checkbox": "^1.0.1",

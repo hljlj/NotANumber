@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const withSemiUI = require('@douyinfe/semi-next').default({});
+
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
@@ -35,4 +37,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withSemiUI(nextConfig);
