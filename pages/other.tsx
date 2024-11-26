@@ -65,17 +65,18 @@ const OtherPage = () => {
     const animateCards = async () => {
       const cardWidth = 350;
       const gap = 24;
-      const totalWidth = cards.length * (cardWidth + gap);
-      const duration = 60;
+      const singleWidth = cardWidth + gap;
+      const totalWidth = cards.length * singleWidth;
+      const duration = 20;
 
       const animate = async (controls: any, direction: 1 | -1) => {
-        await controls.start({
-          x: [0, direction * -totalWidth],
+        controls.start({
+          x: direction === -1 ? [-singleWidth, 0] : [0, -singleWidth],
           transition: {
             duration,
             ease: "linear",
             repeat: Infinity,
-            repeatType: "loop",
+            repeatType: "mirror",
           },
         });
       };
@@ -120,10 +121,12 @@ const OtherPage = () => {
               <CardRow
                 animate={topRowControls}
                 style={{
-                  marginTop: '0.875rem'
+                  marginTop: '0.875rem',
+                  display: 'flex',
+                  gap: '24px',
                 }}
               >
-                {[...cards, ...cards, ...cards].map((card, index) => (
+                {[...cards, ...cards, ...cards, ...cards].map((card, index) => (
                   <StyledCard
                     key={`top-${index}`}
                     title={card.platform}
@@ -147,10 +150,12 @@ const OtherPage = () => {
               <CardRow
                 animate={bottomRowControls}
                 style={{
-                  marginBottom: '0.875rem'
+                  marginBottom: '0.875rem',
+                  display: 'flex',
+                  gap: '24px',
                 }}
               >
-                {[...cards, ...cards, ...cards].map((card, index) => (
+                {[...cards, ...cards, ...cards, ...cards].map((card, index) => (
                   <StyledCard
                     key={`bottom-${index}`}
                     title={card.platform}
