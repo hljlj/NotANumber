@@ -129,23 +129,7 @@ const posts = [
   },
   {
     category: "Other",
-    items: [
-      {
-        post: {
-          slug: "blog-new",
-          title: "New article",
-          description: "Exploring how to use the React key prop to power your Framer Motion animations.",
-          editedAt: "2021-03-21",
-        },
-        children: <Image 
-          src="/favicon.ico" 
-          alt="Description of the image" 
-          width={100}
-          height={100}
-          style={{ width: '100%', height: 'auto' }}
-          priority={true} />,
-      }
-    ]
+    items: []
   }
 ];
 
