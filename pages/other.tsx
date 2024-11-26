@@ -44,16 +44,18 @@ const cards: PlatformCard[] = [
   },
 ];
 
-const getTopRowGradient = (index: number) => {
-  return index % 2 === 0
-    ? 'linear-gradient(to bottom right, #ff4d4d, #ff1a1a)'  // 红色
-    : 'linear-gradient(to bottom right, #ff9933, #ff8000)';  // 橙色
-};
-
-const getBottomRowGradient = (index: number) => {
-  return index % 2 === 0
-    ? 'linear-gradient(to bottom right, #ffcc00, #ffb300)'  // 黄色
-    : 'linear-gradient(to bottom right, #47d147, #33cc33)';  // 绿色
+const getGradient = (index: number, row: 'top' | 'bottom') => {
+  const gradients = {
+    top: [
+      'linear-gradient(to bottom right, #ff4d4d, #ff1a1a)',  // 红色
+      'linear-gradient(to bottom right, #ff9933, #ff8000)'   // 橙色
+    ],
+    bottom: [
+      'linear-gradient(to bottom right, #ffcc00, #ffb300)',  // 黄色
+      'linear-gradient(to bottom right, #47d147, #33cc33)'   // 绿色
+    ]
+  };
+  return gradients[row][index % 2];
 };
 
 const OtherPage = () => {
@@ -132,7 +134,7 @@ const OtherPage = () => {
                     title={card.platform}
                     style={{
                       width: 350,
-                      background: getTopRowGradient(index),
+                      background: getGradient(index, 'top'),
                     }}
                   >
                     <CardContent>
@@ -161,7 +163,7 @@ const OtherPage = () => {
                     title={card.platform}
                     style={{
                       width: 350,
-                      background: getBottomRowGradient(index),
+                      background: getGradient(index, 'bottom'),
                     }}
                   >
                     <CardContent>
