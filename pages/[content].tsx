@@ -67,12 +67,12 @@ const buildHeadingTree = (headings: Heading[]): TreeNode[] => {
 };
 
 const NavHeading = ({ heading, onHeadingClick }: { heading: TreeNode; onHeadingClick: (id: string) => void }) => {
-  const level = Math.min(heading.level - 1, 3);
+  const level = Math.min(heading.level - 1, 3) as 1 | 2 | 3;
 
   return (
     <NavItem>
       <NavItemContent>
-        <NavLink 
+        <NavLink
           href={`#${heading.id}`}
           onClick={(e) => {
             e.preventDefault();
