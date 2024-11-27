@@ -269,27 +269,27 @@ const CardsContainer = styled('div', {
   flexDirection: 'column',
   justifyContent: 'space-between',
   gap: '0.875rem',
-  // background: 'transparent',  // 确保容器背景透明
+  background: 'var(--colors-gray4)',  // 确保容器背景透明
 
   '&::before, &::after': {
     content: '""',
     position: 'absolute',
     top: 0,
     bottom: 0,
-    width: '200px',
+    width: '250px',
     pointerEvents: 'none',
     zIndex: 1,
-    opacity: 0.95,  // 略微调整透明度使效果更自然
+    opacity: 0.98,  // 略微调整透明度使效果更自然
   },
 
   '&::before': {
     left: 0,
-    background: 'linear-gradient(to right, var(--colors-gray1), transparent 100%)',
+    background: 'linear-gradient(to right, var(--colors-gray4), transparent)',
   },
 
   '&::after': {
     right: 0,
-    background: 'linear-gradient(to left, var(--colors-gray1), transparent 100%)',
+    background: 'linear-gradient(to left, var(--colors-gray4), transparent)',
   },
 });
 
