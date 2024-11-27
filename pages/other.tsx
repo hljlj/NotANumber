@@ -25,18 +25,18 @@ const cards: PlatformCard[] = [
     gradient: "from-emerald-500/80 to-emerald-700/80",
   },
   {
-    platform: "数字游牧人",
-    followers: "99,883",
-    views: "3,821,585",
-    videos: "59",
+    platform: "a人",
+    followers: "xx",
+    views: "xx",
+    videos: "xx",
     description: "Through vivid narratives, I share my reflections on software engineering, explore the depths of technology.",
     gradient: "from-rose-600/90 to-rose-800/90",
   },
   {
-    platform: "游戏游牧人",
-    followers: "14,194",
-    views: "2,623,257",
-    videos: "12",
+    platform: "b人",
+    followers: "xx",
+    views: "xx",
+    videos: "xx",
     description: "I'm not only playing games. I treat video games as an experiment.",
     gradient: "from-indigo-600/90 to-indigo-800/90",
   },
@@ -106,13 +106,9 @@ const OtherPage = () => {
               <Title>
                 If you can dream it, you can achieve it.
               </Title>
-              <Subtitle>
-                My stories have attracted{' '}
-                <HighlightSpan>285,844</HighlightSpan> followers.
-              </Subtitle>
               <QuoteBox>
                 <Quote>
-                  There are countless ways to tell a story about the world, this is mine.
+                  I'm the blog owner, always seeking new horizons and committed to growing throughout life.
                 </Quote>
               </QuoteBox>
             </HeaderSection>
@@ -247,14 +243,14 @@ const HighlightSpan = styled('span', {
 });
 
 const QuoteBox = styled('div', {
-  backgroundColor: 'rgba(251, 146, 60, 0.1)',
+  backgroundColor: 'rgba(0, 0, 0, 0.05)',  // 浅黑色背景
   padding: '1rem',
   borderRadius: '0.5rem',
 });
 
 const Quote = styled('p', {
   fontSize: '1.25rem',
-  color: '#fed7aa',
+  color: 'rgba(0, 0, 0, 0.85)',  // 深黑色文字
   '@media (min-width: 640px)': {
     fontSize: '1.5rem',
   },

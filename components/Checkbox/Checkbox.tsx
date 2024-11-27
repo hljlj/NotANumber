@@ -1,6 +1,6 @@
 import React from "react";
 import { darkTheme, styled } from "~/stitches.config";
-import { violet, blackA } from "@radix-ui/colors";
+import { violet } from "@radix-ui/colors";
 import { FaCheck } from "react-icons/fa";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 

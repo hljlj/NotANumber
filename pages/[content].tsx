@@ -3,15 +3,13 @@ import type { GetStaticPropsContext } from "next";
 import Head from "next/head";
 import { getMDXComponent } from "mdx-bundler/client";
 import Balancer from "react-wrap-balancer";
-import Image from "next/image";
-import { motion, AnimatePresence, useAnimation } from "framer-motion";
-import { ChevronDown, ChevronRight } from 'lucide-react';
+import { motion, useAnimation } from "framer-motion";
 import { useRouter } from 'next/router';
 import { BackArrow } from "~/components/BackArrow";
 
 import { getAllPosts, getPost, type Post, type Heading } from "~/lib/content.server";
 import { BASE_URL } from "~/lib/config";
-import { darkTheme, styled } from "~/stitches.config";
+import { styled } from "~/stitches.config";
 
 import { Heading as HeadingComponent, Subheading, SubSubheading } from "~/components/Heading";
 import { OrderedList } from "~/components/OrderedList";
