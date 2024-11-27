@@ -104,7 +104,7 @@ const OtherPage = () => {
           <MainContent>
             <HeaderSection>
               <Title>
-                I share stories about #programming, #gaming, #content-creation and #life on the Internet.
+                If you can dream it, you can achieve it.
               </Title>
               <Subtitle>
                 My stories have attracted{' '}
