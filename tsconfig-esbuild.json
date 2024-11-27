@@ -28,9 +28,6 @@
       ],
       "~/components/*": [
         "./components/*"
-      ],
-      "~/experiments/*": [
-        "./experiments/*"
       ]
     }
   },

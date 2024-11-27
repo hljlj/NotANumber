@@ -7,10 +7,4 @@ import * as Sandbox from './components/Sandbox/Sandbox.stories'
 import * as SubscribeButton from './components/SubscribeButton/SubscribeButton.stories'
 import * as SvgGridWrapper from './components/SvgGridWrapper/SvgGridWrapper.stories'
 import * as Visualizer from './components/Visualizer/Visualizer.stories'
-import * as BezierCurveQuiz from './experiments/BezierCurveQuiz/BezierCurveQuiz.stories'
-import * as Cards from './experiments/Cards/Cards.stories'
-import * as ControllableAnimation from './experiments/ControllableAnimation/ControllableAnimation.stories'
-import * as EasingFunctionSandbox from './experiments/EasingFunctionSandbox/EasingFunctionSandbox.stories'
-import * as TextLoadAnimation from './experiments/TextLoadAnimation/TextLoadAnimation.stories'
-export const stories = [{ name: `components`, stories: [{ name: 'Checkbox', variants: Checkbox },{ name: 'Link', variants: Link },{ name: 'MobileNavIsland', variants: MobileNavIsland },{ name: 'PrimaryButton', variants: PrimaryButton },{ name: 'Quiz', variants: Quiz },{ name: 'Sandbox', variants: Sandbox },{ name: 'SubscribeButton', variants: SubscribeButton },{ name: 'SvgGridWrapper', variants: SvgGridWrapper },{ name: 'Visualizer', variants: Visualizer }] },
-{ name: `experiments`, stories: [{ name: 'BezierCurveQuiz', variants: BezierCurveQuiz },{ name: 'Cards', variants: Cards },{ name: 'ControllableAnimation', variants: ControllableAnimation },{ name: 'EasingFunctionSandbox', variants: EasingFunctionSandbox },{ name: 'TextLoadAnimation', variants: TextLoadAnimation }] }];
+export const stories = [{ name: `components`, stories: [{ name: 'Checkbox', variants: Checkbox },{ name: 'Link', variants: Link },{ name: 'MobileNavIsland', variants: MobileNavIsland },{ name: 'PrimaryButton', variants: PrimaryButton },{ name: 'Quiz', variants: Quiz },{ name: 'Sandbox', variants: Sandbox },{ name: 'SubscribeButton', variants: SubscribeButton },{ name: 'SvgGridWrapper', variants: SvgGridWrapper },{ name: 'Visualizer', variants: Visualizer }] }];
