@@ -586,7 +586,7 @@
   dependencies:
     bezier-easing "^2.1.0"
 
-"@douyinfe/semi-foundation@2.70.1":
+"@douyinfe/semi-foundation@^2.70.1", "@douyinfe/semi-foundation@2.70.1":
   version "2.70.1"
   resolved "https://registry.npmmirror.com/@douyinfe/semi-foundation/-/semi-foundation-2.70.1.tgz"
   integrity sha512-+A6LU5Jqqqgn1BG4n5r8TDKbfT8eSW5XKhGw9eekfnbQkfu5EEgsyZQGo2KKwh7TKUlIc6ntrAH4skviPMqJ6Q==
