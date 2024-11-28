@@ -4,9 +4,11 @@ const withSemiUI = require('@douyinfe/semi-next').default({});
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  transpilePackages: ['@douyinfe/semi-ui', '@douyinfe/semi-foundation', '@douyinfe/semi-icons'],
   experimental: {
     forceSwcTransforms: true,
     appDir: true,
+    esmExternals: 'loose'
   },
   images: {
     domains: ["avatars.githubusercontent.com"],
@@ -14,6 +16,13 @@ const nextConfig = {
   webpack: (config, { isServer }) => {
     // 添加 .ts 扩展名到模块解析配置
     config.resolve.extensions = ['.ts', '.tsx', '.js', '.jsx', ...config.resolve.extensions];
+    
+    // 处理 ESM 模块
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      '@mdx-js/react': false,
+      '@mdx-js/mdx': false
+    };
     return config;
   },
   async redirects() {
