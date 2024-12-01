@@ -1,8 +1,8 @@
 import { setupDevPlatform } from '@cloudflare/next-on-pages/next-dev';
-import semiUI from '@douyinfe/semi-next';
+import semiNext from '@douyinfe/semi-next';
 
 /** @type {import('next').NextConfig} */
-const withSemiUI = semiUI();
+const withSemiUI = semiNext({});
 
 const nextConfig = {
   reactStrictMode: true,
