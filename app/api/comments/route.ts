@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Octokit } from "octokit";
 import { sql } from "@vercel/postgres";
 
+export const runtime = 'edge';
 type Comment = {
   id: string;
   location: string;

@@ -1,5 +1,8 @@
+import { setupDevPlatform } from '@cloudflare/next-on-pages/next-dev';
+import semiUI from '@douyinfe/semi-next';
+
 /** @type {import('next').NextConfig} */
-const withSemiUI = require('@douyinfe/semi-next').default({});
+const withSemiUI = semiUI();
 
 const nextConfig = {
   reactStrictMode: true,
@@ -46,4 +49,8 @@ const nextConfig = {
   },
 };
 
-module.exports = withSemiUI(nextConfig);
+if (process.env.NODE_ENV === 'development') {
+  await setupDevPlatform();
+}
+
+export default withSemiUI(nextConfig);
