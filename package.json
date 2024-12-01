@@ -2,6 +2,7 @@
   "name": "nan-next",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "component": "node bin/component.js",
     "dev": "concurrently \"next dev\" \"npm run build:content -- --watch\"",
