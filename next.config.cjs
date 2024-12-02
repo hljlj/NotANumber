@@ -13,6 +13,11 @@ const nextConfig = {
     appDir: true,
     esmExternals: 'loose'
   },
+  compiler: {
+    // 启用 SWC 编译器
+    styledComponents: true,
+    emotion: true,
+  },
   images: {
     domains: ["avatars.githubusercontent.com"],
   },
@@ -26,6 +31,20 @@ const nextConfig = {
       '@mdx-js/react': false,
       '@mdx-js/mdx': false
     };
+
+    // 添加 TypeScript 和 JSX 处理
+    config.module.rules.push({
+      test: /\.(ts|tsx)$/,
+      use: [
+        {
+          loader: 'babel-loader',
+          options: {
+            presets: ['next/babel'],
+          },
+        },
+      ],
+    });
+
     return config;
   },
   async redirects() {
