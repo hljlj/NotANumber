@@ -1,5 +1,5 @@
-import { setupDevPlatform } from '@cloudflare/next-on-pages/next-dev';
-import semiNext from '@douyinfe/semi-next';
+const { setupDevPlatform } = require('@cloudflare/next-on-pages/next-dev');
+const semiNext = require('@douyinfe/semi-next');
 
 /** @type {import('next').NextConfig} */
 const withSemiUI = semiNext({});
@@ -50,7 +50,7 @@ const nextConfig = {
 };
 
 if (process.env.NODE_ENV === 'development') {
-  await setupDevPlatform();
+  setupDevPlatform().catch(console.error);
 }
 
-export default withSemiUI(nextConfig);
+module.exports = withSemiUI(nextConfig);
