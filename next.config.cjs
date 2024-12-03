@@ -14,9 +14,8 @@ const nextConfig = {
     esmExternals: 'loose'
   },
   compiler: {
-    // 启用 SWC 编译器
+    // 启用样式处理
     styledComponents: true,
-    emotion: true,
   },
   images: {
     domains: ["avatars.githubusercontent.com"],
@@ -32,14 +31,19 @@ const nextConfig = {
       '@mdx-js/mdx': false
     };
 
-    // 添加 TypeScript 和 JSX 处理
+    // 确保使用 babel-loader 处理 TypeScript 和 JSX
     config.module.rules.push({
       test: /\.(ts|tsx)$/,
+      exclude: /node_modules/,
       use: [
         {
           loader: 'babel-loader',
           options: {
+            cacheDirectory: true,
             presets: ['next/babel'],
+            plugins: [
+              ['@babel/plugin-transform-runtime', { regenerator: true }],
+            ],
           },
         },
       ],
